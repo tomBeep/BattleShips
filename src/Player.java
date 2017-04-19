@@ -11,15 +11,33 @@ public class Player {
 	}
 
 	public void addShip(Ship s) {
-		hitBoard.addShip(s);// needs to be changed to my board not hit board
+		myBoard.addShip(s);
 	}
 
-	public void takeShot(Point p) {
-		hitBoard.checkShot(p);
+	public boolean takeShot(Point p, Player oppositon) {
+		if (oppositon.getMyBoard().checkShot(p)) {
+			hitBoard.markHit(p, true);
+			return true;
+		}
+		hitBoard.markHit(p, false);
+		return false;
+
 	}
 
-	public void draw(int x, int y, int sizePerSquare, Graphics g) {
-		hitBoard.draw(x, y, sizePerSquare, g);
+	public void drawHitBoard(int x, int y, int sizePerSquare, Graphics g, highlightedArea h) {
+		hitBoard.draw(x, y, sizePerSquare, g, false, h);
+	}
+
+	public void drawMyBoard(int x, int y, int sizePerSquare, Graphics g, highlightedArea h) {
+		myBoard.draw(x, y, sizePerSquare, g, true, h);
+	}
+
+	public Board getHitBoard() {
+		return this.hitBoard;
+	}
+
+	public Board getMyBoard() {
+		return this.myBoard;
 	}
 
 }

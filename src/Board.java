@@ -6,7 +6,6 @@ public class Board {
 
 	private Ship[] ships;
 	private LinkedList<Point> shotsFired = new LinkedList<Point>();
-	private boolean hideShips;
 
 	public Board() {
 		ships = new Ship[main.NUMBER_OF_SHIPS];
@@ -35,31 +34,34 @@ public class Board {
 	 * @param sizePerSquare
 	 *            the amount of space each square of the board should take;
 	 */
-	public void draw(int x, int y, int sizePerSquare, Graphics g) {
+	public void draw(int x, int y, int sizePerSquare, Graphics g, boolean yourBoard, highlightedArea h) {
 		int currentX = x;
 		int currentY = y;
+
+		if (h == null)
+			return;
 
 		// draw The shots fired
 		for (Point p : shotsFired) {
 			if (p.isHit())
 				g.setColor(Color.red);// hit is red
 			else
-				g.setColor(Color.blue);// miss is blue
+				g.setColor(Color.black);// miss is black
 			g.fillRect(x + sizePerSquare * p.getX(), y + sizePerSquare * p.getY(), sizePerSquare, sizePerSquare);
 		}
 
-		if (!hideShips) {
-			// draw The Ships and ShipPoints and whether they are hit
+		// draw The Ships and ShipPoints and whether they are hit
+		if (yourBoard) {// only draw on your board
 			for (Ship s : ships) {
 				if (s == null)// s should never be null but it might be if not enough ships have been added
 					continue;
 				for (Point p : s.getPoints()) {
 					if (s.isDead())
-						g.setColor(Color.cyan);// dead ship is totally cyan
+						g.setColor(Color.GRAY);// dead ship is totally grey
 					else if (p.isHit())
 						g.setColor(Color.ORANGE);// wounded area of ship is orange
 					else
-						g.setColor(Color.GRAY);// unwounded area of ship is grey
+						g.setColor(Color.GREEN);// unwounded area of ship is green
 					g.fillRect(x + sizePerSquare * p.getX(), y + sizePerSquare * p.getY(), sizePerSquare,
 							sizePerSquare);
 				}
@@ -68,14 +70,40 @@ public class Board {
 
 		// draw the base board
 		g.setColor(Color.black);
-		for (int i = 0; i < main.BOARD_SIZE; i++) {
-			for (int j = 0; j < main.BOARD_SIZE; j++) {
+		for (int i = 0; i < main.BOARD_UNITS; i++) {
+			for (int j = 0; j < main.BOARD_UNITS; j++) {
 				g.drawRect(currentX, currentY, sizePerSquare, sizePerSquare);
 				currentX += sizePerSquare;
 			}
 			currentX = x;
 			currentY += sizePerSquare;
 		}
+
+		// draw highlighted area
+		if ((yourBoard && main.mainGameStarted == false)// if your board and game is in selection phase,
+				|| (!yourBoard && main.mainGameStarted == true)) {// else draws it on the other board
+			g.setColor(Color.blue);
+			for (Point p : h.highlightedArea) {
+				if (p != null) {
+					// draws a double thickness selection box
+					g.drawRect(x + sizePerSquare * p.getX(), y + sizePerSquare * p.getY(), sizePerSquare,
+							sizePerSquare);
+					g.drawRect(x + sizePerSquare * p.getX() + 1, y + sizePerSquare * p.getY() + 1, sizePerSquare - 2,
+							sizePerSquare - 2);
+				}
+			}
+		}
+
+	}
+
+	public Ship[] getShips() {
+		return ships;
+	}
+
+	public void markHit(Point p, boolean hit) {
+		if (hit)
+			p.markHit();
+		shotsFired.add(p);
 	}
 
 	/**
@@ -96,11 +124,4 @@ public class Board {
 		return false;
 	}
 
-	public boolean isHideShips() {
-		return hideShips;
-	}
-
-	public void setHideShips(boolean hideShips) {
-		this.hideShips = hideShips;
-	}
 }
