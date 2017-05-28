@@ -9,10 +9,17 @@ public class main {
 	static final int[] SHIP_SIZES = new int[] { 5, 4, 3, 3, 2 };
 
 	public static boolean mainGameStarted = false;
+	/**
+	 * Whether or not the board should be hidden changes between turns when player 1 switches with player 2
+	 */
 	public static boolean hideBoard = false;
+	/**
+	 * The message to be displayed as on the hide screen screen
+	 */
 	public static String message = "Please swap players, press any key to continue";
 
 	public HighlightedArea highlightedArea;
+	boolean addedShipIsVertical = true;// whether or not the highlighted area is vertical (when adding ships)
 
 	private GUI gui;
 	private Player p1 = new Player();
@@ -20,7 +27,6 @@ public class main {
 	private int numberOfShipsAdded = 0;
 
 	boolean player1Turn;
-	boolean addedShipIsVertical = true;
 
 	/**
 	 * Starts the game
@@ -74,10 +80,6 @@ public class main {
 									// to select a shot
 		player1Turn = true;
 		gui.redraw();
-	}
-
-	public main() {
-		gui = new GUI(this);
 	}
 
 	/**
@@ -173,6 +175,10 @@ public class main {
 			p1.drawHitBoard(10, 10, UNIT_SIZE, g, highlightedArea);
 		else
 			p2.drawHitBoard(10, 10, UNIT_SIZE, g, highlightedArea);
+	}
+
+	public main() {
+		gui = new GUI(this);
 	}
 
 	public static void main(String[] args) {
