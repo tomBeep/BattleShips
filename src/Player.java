@@ -10,8 +10,11 @@ public class Player {
 		myBoard = new Board();// this will probably need to be changed
 	}
 
-	public void addShip(Ship s) {
+	public boolean addShip(Ship s) {
+		if (myBoard.overlappingShip(s))
+			return false;
 		myBoard.addShip(s);
+		return true;
 	}
 
 	public boolean takeShot(Point p, Player oppositon) {
@@ -24,11 +27,11 @@ public class Player {
 
 	}
 
-	public void drawHitBoard(int x, int y, int sizePerSquare, Graphics g, highlightedArea h) {
+	public void drawHitBoard(int x, int y, int sizePerSquare, Graphics g, HighlightedArea h) {
 		hitBoard.draw(x, y, sizePerSquare, g, false, h);
 	}
 
-	public void drawMyBoard(int x, int y, int sizePerSquare, Graphics g, highlightedArea h) {
+	public void drawMyBoard(int x, int y, int sizePerSquare, Graphics g, HighlightedArea h) {
 		myBoard.draw(x, y, sizePerSquare, g, true, h);
 	}
 

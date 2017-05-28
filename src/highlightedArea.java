@@ -1,9 +1,9 @@
 
-public class highlightedArea {
+public class HighlightedArea {
 
 	public Point[] highlightedArea = new Point[main.BOARD_UNITS];
 
-	public highlightedArea() {
+	public HighlightedArea() {
 	}
 
 	public boolean rotateShip() {
@@ -33,7 +33,7 @@ public class highlightedArea {
 		return true;
 	}
 
-	public void newShipToAdd(int size) {
+	public void newArea(int size) {
 		highlightedArea = new Point[size];
 		for (int i = 0; i < size; i++) {
 			highlightedArea[i] = new Point(0, i);

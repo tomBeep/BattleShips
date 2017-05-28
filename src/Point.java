@@ -65,4 +65,12 @@ public class Point {
 		hit = true;
 	}
 
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof Point))
+			return false;
+		Point p = (Point) other;
+		return (p.x == this.x && p.y == this.y);
+	}
+
 }

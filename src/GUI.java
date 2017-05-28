@@ -87,20 +87,23 @@ public class GUI {
 		j.setSize(600, 600);
 		JTextArea rules = new JTextArea();
 		String text = "BattleShip Rules:\n\n";
-		text += "The goal of the game is too destroy all of your opponents ships.\n\n";
+		text += "This game is a two player implementation where each player takes turn shooting at the other player's board\n"
+				+ "The goal of the game is too destroy all of your opponents ships.\n\n";
 		text += "The first stage of the game involves each player placing his or her \n"
-				+ "ships in the position they would like their ships hidden at, ship\n"
+				+ "ships in the position they would like their ships hidden at,\nShip "
 				+ "locations are hidden from your opponent.\n\n"
 				+ "The second Stage of the game involves taking turns shooting at your \n"
 				+ "opponents ships (the second grid is used for this), move the pointer \n"
 				+ "around the grid and press 'enter' to take a shot.\n\n"
-				+ "You have two grids. The left grid shows the position of your ships and\n"
-				+ "also you opponents hits/misses, the grid on the left shows you your \n"
-				+ "hits and misses. Black means miss, red means hit.\n\n"
+				+ "You have two grids. The left grid shows the position of your SHIPS and\n"
+				+ "also the opponents hits/misses, the grid on the right shows you your \n"
+				+ "HITS and MISSES. Black means miss, red means hit.\n\n"
 				+ "The game ends when all of one player's ships are destroyed.\n\n"
 				+ "To move the point and ships use the arrow keys, press spacebar to flip\n"
 				+ "a ship from vertical to horizontal during the ship placing stage, press\n"
-				+ "enter to confirm placement/confirm shot.";
+				+ "'Enter' to confirm placement/confirm shot.\n\n" + "Colors:\n" + "Black is a shot that missed\n"
+				+ "Red is a shot that hit\n" + "Green is a ship\n"
+				+ "Yellow is an opponent's shot that hit one of your ship\n" + "Grey is a ship that is totally dead\n";
 
 		rules.setText(text);
 		j.add(rules);
@@ -187,7 +190,7 @@ public class GUI {
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			if (mainClass.current == null)
+			if (mainClass.highlightedArea == null)
 				return;
 			if (main.hideBoard) {
 				main.hideBoard = false;
@@ -198,20 +201,32 @@ public class GUI {
 			}
 			int keyCode = e.getKeyCode();
 			switch (keyCode) {
+			case KeyEvent.VK_W:
+				mainClass.highlightedArea.moveArea(0, -1);
+				break;
+			case KeyEvent.VK_S:
+				mainClass.highlightedArea.moveArea(0, 1);
+				break;
+			case KeyEvent.VK_A:
+				mainClass.highlightedArea.moveArea(-1, 0);
+				break;
+			case KeyEvent.VK_D:
+				mainClass.highlightedArea.moveArea(1, 0);
+				break;
 			case KeyEvent.VK_UP:
-				mainClass.current.moveArea(0, -1);
+				mainClass.highlightedArea.moveArea(0, -1);
 				break;
 			case KeyEvent.VK_DOWN:
-				mainClass.current.moveArea(0, 1);
+				mainClass.highlightedArea.moveArea(0, 1);
 				break;
 			case KeyEvent.VK_LEFT:
-				mainClass.current.moveArea(-1, 0);
+				mainClass.highlightedArea.moveArea(-1, 0);
 				break;
 			case KeyEvent.VK_RIGHT:
-				mainClass.current.moveArea(1, 0);
+				mainClass.highlightedArea.moveArea(1, 0);
 				break;
 			case KeyEvent.VK_SPACE:
-				if (mainClass.current.rotateShip())
+				if (mainClass.highlightedArea.rotateShip())
 					mainClass.addedShipIsVertical = !mainClass.addedShipIsVertical;
 				break;
 			case KeyEvent.VK_ENTER:

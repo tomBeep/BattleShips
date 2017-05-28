@@ -12,6 +12,22 @@ public class Board {
 	}
 
 	/**
+	 * Checks whether the ship overlaps with another ship, return true if it does overlap
+	 * 
+	 * @param s
+	 *            ship being added
+	 * @return false if the ship does not overlap with another ship
+	 */
+	public boolean overlappingShip(Ship s) {
+		for (int i = 0; i < ships.length; i++) {
+			if (ships[i] != null && ships[i].checkOverlap(s)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * @param s
 	 *            the ship to add
 	 * @return true if ship as added successfully, false if max number of ships reached already
@@ -34,7 +50,7 @@ public class Board {
 	 * @param sizePerSquare
 	 *            the amount of space each square of the board should take;
 	 */
-	public void draw(int x, int y, int sizePerSquare, Graphics g, boolean yourBoard, highlightedArea h) {
+	public void draw(int x, int y, int sizePerSquare, Graphics g, boolean yourBoard, HighlightedArea h) {
 		int currentX = x;
 		int currentY = y;
 
@@ -64,6 +80,23 @@ public class Board {
 						g.setColor(Color.GREEN);// unwounded area of ship is green
 					g.fillRect(x + sizePerSquare * p.getX(), y + sizePerSquare * p.getY(), sizePerSquare,
 							sizePerSquare);
+				}
+				g.setColor(Color.RED);
+				// draws the outline of each ship
+				if (s.vertical) {
+					g.drawRect(x + sizePerSquare * s.getPoints()[0].getX() + 2,
+							y + sizePerSquare * s.getPoints()[0].getY() + 2, sizePerSquare - 4,
+							sizePerSquare * s.getPoints().length - 4);
+					g.drawRect(x + sizePerSquare * s.getPoints()[0].getX() + 1,
+							y + sizePerSquare * s.getPoints()[0].getY() + 1, sizePerSquare - 2,
+							sizePerSquare * s.getPoints().length - 2);
+				} else {
+					g.drawRect(x + sizePerSquare * s.getPoints()[0].getX() + 2,
+							y + sizePerSquare * s.getPoints()[0].getY() + 2, sizePerSquare * s.getPoints().length - 4,
+							sizePerSquare - 4);
+					g.drawRect(x + sizePerSquare * s.getPoints()[0].getX() + 1,
+							y + sizePerSquare * s.getPoints()[0].getY() + 1, sizePerSquare * s.getPoints().length - 2,
+							sizePerSquare - 2);
 				}
 			}
 		}
