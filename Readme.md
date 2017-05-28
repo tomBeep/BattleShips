@@ -1,7 +1,7 @@
 Tom's BattleShips game.
 
 
-First game I've created using my own GUI made with Swing. 
+Created entirely by me! First game I've created using my own GUI with Swing.
 Is designed to be played by two players using a single computer.
 
 Run by downloading the jar file and double clicking it.
